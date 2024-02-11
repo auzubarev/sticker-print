@@ -4,26 +4,52 @@
     <meta charset="UTF-8">
     <title>Sticker printer</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/persist@3.x.x/dist/cdn.min.js"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <script src="https://kit.fontawesome.com/645991e92d.js" crossorigin="anonymous"></script>
     <style>
-        .page{
+        .has-text-truncate {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .page {
             border-radius: 3mm;
             background-color: white;
             width: 21cm;
-            height: 29.7cm;
-            padding: 10mm;
+        }
+
+        @media print {
+            body {
+                visibility: hidden;
+            }
+
+            .page {
+                visibility: visible;
+                position: absolute;
+                left: 0;
+                top: 0;
+            }
+        }
+        @page {
+            margin: 0;
         }
     </style>
 </head>
-<body class="has-background-light" x-data="{'cards' : [{'name' : '', 'sub_name' : '', 'description' : '', 'icon' : ''}]}">
+<body class="has-background-light"
+      x-data="{'n' : $persist(''), 'cards' : $persist([{'name' : '', 'sub_name' : '', 'description' : '', 'icon' : '', 'code' : ''}])}">
 <div class="container">
     <div class="is-size-1 has-text-weight-bold pt-5 mb-3">Генератор этикеток</div>
     <div class="mb-5" style="max-width: 500px;">
         <div class="field mb-3">
             <template x-for="card in cards">
-                <div class="mb-3">
+                <div class="mb-6">
                     <div class="control mb-2">
                         <input class="input" x-model="card.icon" type="text" placeholder="Иконка">
+                    </div>
+                    <div class="control mb-2">
+                        <input class="input" x-model="card.code" type="text" placeholder="Код">
                     </div>
                     <div class="control mb-2">
                         <input class="input" x-model="card.name" type="text" placeholder="Заголовок">
@@ -32,25 +58,43 @@
                         <input class="input" x-model="card.sub_name" type="text" placeholder="Подзаголовок">
                     </div>
                     <div class="control mb-2">
-                        <textarea class="textarea" x-model="card.description"  placeholder="Описание"></textarea>
+                        <textarea class="textarea" x-model="card.description" placeholder="Описание"></textarea>
                     </div>
                 </div>
             </template>
             <div class="button" @click="cards.push(Object.assign({}, (cards[cards.length - 1])))">+</div>
             <div class="button" @click="cards.pop()">-</div>
+            <div class="control mt-6">
+                <input class="input" x-model.number="n" type="text" placeholder="Кол-во дублей">
+            </div>
         </div>
     </div>
     <div class="is-size-3 has-text-weight-bold mb-3">Результат</div>
     <div class="page">
-        <template x-for="card in cards">
-            <div class="column">
-                <div x-text="card.icon"></div>
-                <div x-text="card.name"></div>
-                <div x-text="card.sub_name"></div>
-                <div x-text="card.description"></div>
-            </div>
-        </template>
+        <div class="columns is-gapless is-multiline">
+            <template x-for="card in cards">
+                <template x-for="i in n">
+                    <div class="column is-one-third">
+                        <div style="border: 1px dotted rgba(128,128,128,0.25)" class="p-5 has-text-black">
+
+                            <div class="is-size-3 is-flex is-justify-content-space-between mb-2">
+                                <i :class="card.icon"></i>
+                                <img width="32px" height="32px" alt=""
+                                     :src="'http://api.qrserver.com/v1/create-qr-code/?data='+card.code+'&size=100x100'">
+                            </div>
+                            <div class="is-size-4 has-text-weight-bold has-text-truncate" x-text="card.name"></div>
+                            <div class="is-size-6 has-text-truncate mb-2" x-text="card.sub_name"></div>
+                            <div class="is-size-7 has-text-grey" style="max-height: 66px; height: 66px;"
+                                 x-text="card.description"></div>
+                        </div>
+                    </div>
+                </template>
+            </template>
+        </div>
     </div>
+    <br>
+    <br>
+    <br>
 </div>
 
 
