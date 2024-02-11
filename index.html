@@ -7,7 +7,13 @@
     <script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/persist@3.x.x/dist/cdn.min.js"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <script src="https://kit.fontawesome.com/645991e92d.js" crossorigin="anonymous"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Yanone+Kaffeesatz:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
+        body {
+            font-family: 'Yanone Kaffeesatz', sans-serif;
+        }
         .has-text-truncate {
             white-space: nowrap;
             overflow: hidden;
@@ -64,12 +70,12 @@
             </template>
             <div class="button" @click="cards.push(Object.assign({}, (cards[cards.length - 1])))">+</div>
             <div class="button" @click="cards.pop()">-</div>
-            <div class="control mt-6">
+            <div class="control mt-6 mb-6">
                 <input class="input" x-model.number="n" type="text" placeholder="Кол-во дублей">
             </div>
         </div>
     </div>
-    <div class="is-size-3 has-text-weight-bold mb-3">Результат</div>
+    <div class="is-size-3 has-text-weight-bold mb-3">Предварительный просмотр</div>
     <div class="page">
         <div class="columns is-gapless is-multiline">
             <template x-for="card in cards">
