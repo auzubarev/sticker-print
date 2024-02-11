@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Sticker printer</title>
+    <title>Этикетки</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
     <script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/persist@3.x.x/dist/cdn.min.js"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
@@ -46,7 +46,7 @@
 <body class="has-background-light"
       x-data="{'n' : $persist(''), 'cards' : $persist([{'name' : '', 'sub_name' : '', 'description' : '', 'icon' : '', 'code' : ''}])}">
 <div class="container">
-    <div class="is-size-1 has-text-weight-bold pt-5 mb-3">Генератор этикеток</div>
+    <div class="is-size-1 has-text-weight-bold pt-5 mb-3">Этикетки</div>
     <div class="mb-5" style="max-width: 500px;">
         <div class="field mb-3">
             <template x-for="card in cards">
